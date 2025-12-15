@@ -17,4 +17,10 @@ variable "db_password" {
   description = "Database password"
   type        = string
   sensitive   = true
+  default     = "SuperSecurePass123!"
+
+  validation {
+    condition     = length(var.db_password) >= 8
+    error_message = "The database password must be at least 8 characters long."
+  }
 }
