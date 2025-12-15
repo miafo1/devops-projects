@@ -1,7 +1,7 @@
 resource "aws_db_instance" "default" {
   allocated_storage       = 20
   engine                  = "postgres"
-  engine_version          = "15.4"
+  engine_version          = "16.3"
   instance_class          = "db.t3.micro" # Free tier eligible
   db_name                 = "food_delivery"
   username                = "postgres"
