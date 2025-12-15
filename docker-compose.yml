@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: food_delivery_backend
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=dev_secret_key
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=food_delivery
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+    networks:
+      - food_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: food_delivery_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - food_network
+
+  db:
+    image: postgres:15-alpine
+    container_name: food_delivery_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=food_delivery
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - food_network
+
+networks:
+  food_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
