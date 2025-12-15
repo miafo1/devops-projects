@@ -7,37 +7,37 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
-    # Proxy API requests to the backend (needed for docker-compose networking)
+    # Proxy API requests to the backend
     location /api/ {
-        proxy_pass http://backend:8000;
+        proxy_pass http://${BACKEND_HOST}:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
     
     # Proxy Admin requests
     location /admin/ {
-        proxy_pass http://backend:8000;
+        proxy_pass http://${BACKEND_HOST}:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
     
     # Proxy Swagger
     location /swagger/ {
-        proxy_pass http://backend:8000;
+        proxy_pass http://${BACKEND_HOST}:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
 
     # Proxy Django Static Files
     location /static/ {
-        proxy_pass http://backend:8000;
+        proxy_pass http://${BACKEND_HOST}:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
 
     # Proxy Django Media Files
     location /media/ {
-        proxy_pass http://backend:8000;
+        proxy_pass http://${BACKEND_HOST}:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }

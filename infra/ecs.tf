@@ -73,6 +73,9 @@ resource "aws_ecs_task_definition" "app" {
           protocol      = "tcp"
         }
       ]
+      environment = [
+        { name = "BACKEND_HOST", value = "127.0.0.1" }
+      ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {

@@ -37,6 +37,8 @@ services:
       - backend
     networks:
       - food_network
+    environment:
+      - BACKEND_HOST=backend
 
   db:
     image: postgres:15-alpine
